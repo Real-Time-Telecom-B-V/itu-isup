@@ -1,0 +1,36 @@
+# Maturin build config for the `itu-isup` wheel. The version is single-sourced from
+# Cargo.toml (`dynamic = ["version"]`), so PyPI and crates.io always ship the same
+# number. `extension-module` is the ONLY place that feature is enabled, never by
+# `cargo test`/`cargo clippy` (it un-links libpython and breaks Rust test binaries).
+[build-system]
+requires = ["maturin>=1.7,<2"]
+build-backend = "maturin"
+
+[project]
+name = "itu-isup"
+description = "Rust-backed ISUP (ITU-T Q.763) message + parameter codec for Python"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Real Time Telecom B.V." }]
+keywords = ["isup", "ss7", "q763", "telecom", "mtp3"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Telecommunications Industry",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: Free Threading :: 3 - Stable",
+    "Topic :: Communications",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/Real-Time-Telecom-B-V/itu-isup"
+Repository = "https://github.com/Real-Time-Telecom-B-V/itu-isup"
+
+[tool.maturin]
+# Mixed layout: compiled ext at `itu_isup._itu_isup`, pure-Python shim under python/.
+module-name = "itu_isup._itu_isup"
+python-source = "python"
+features = ["extension-module"]
